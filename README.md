@@ -1,4 +1,4 @@
-## Debezium From Oracle To PostgreSql
+## Debezium From Oracle To Oracle
 
 You must download the [Oracle instant client for Linux](http://www.oracle.com/technetwork/topics/linuxx86-64soft-092277.html)
 and put it under the directory _debezium-with-oracle-jdbc/oracle_instantclient_.

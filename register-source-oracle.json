@@ -1,0 +1,22 @@
+{
+    "name": "inventory-source-connector",
+    "config": {
+        "connector.class" : "io.debezium.connector.oracle.OracleConnector",
+        "tasks.max" : "1",
+        "database.server.name" : "dbz_oracle",
+        "database.hostname" : "dbz_oracle",
+        "database.port" : "1521",
+        "database.user" : "c##logminer",
+        "database.password" : "dbz",
+        "database.dbname" : "XE",
+        "database.oracle.version": "11",
+        "database.history.kafka.bootstrap.servers" : "kafka:9092",
+        "database.history.kafka.topic": "schema-changes.inventory",
+        "database.connection.adapter": "logminer",
+        "table.include.list" : "",
+        "database.schema": "inventory",
+        "errors.log.enable": "true",
+        "snapshot.lock.timeout.ms":"5000",
+        "include.schema.changes": "true"
+    }
+}

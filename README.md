@@ -1,4 +1,4 @@
-## Debezium From Oracle To Oracle
+# Using Debezium From Oracle To Oracle
 
 You must download the [Oracle instant client for Linux](http://www.oracle.com/technetwork/topics/linuxx86-64soft-092277.html)
 and put it under the directory _debezium-with-oracle-jdbc/oracle_instantclient_.
@@ -52,20 +52,36 @@ curl -i -X POST -H "Accept:application/json" -H  "Content-Type:application/json"
 ```
 
 - Connect to Source Oracle DB
-    - Host: localhost
-    - Port: 1521
-    - Service Name: XE
-    - user: SYS
-    - pass: oracle
+  - Host: localhost
+  - Port: 1521
+  - Service Name: XE
+  - user: SYS
+  - pass: oracle
 
 - Connect to Target Oracle DB
-    - Host: localhost
-    - Port: 3042
-    - Service Name: XE
-    - user: SYS
-    - pass: oracle
+  - Host: localhost
+  - Port: 3042
+  - Service Name: XE
+  - user: SYS
+  - pass: oracle
 
 - Make changes on Source DB, see results on kafka topic, and on the target database.
+
+```sql
+--SOURCE DB
+SELECT * FROM INVENTORY.CUSTOMERS c ;
+
+UPDATE INVENTORY.CUSTOMERS c SET c.FIRST_NAME = CASE WHEN c.FIRST_NAME = 'Anne' THEN 'Marie Anne' ELSE 'Anne' END 
+WHERE c.id = 1004;
+
+UPDATE INVENTORY.CUSTOMERS c SET c.EMAIL = c.EMAIL || '.tr';
+
+--TARGET DB
+
+SELECT * FROM ALL_TABLES at2 WHERE OWNER = 'INVENTORY';
+
+SELECT * FROM INVENTORY.CUSTOMERS c;
+```
 
 - See the kafka topics
 
@@ -95,6 +111,12 @@ curl -i -X GET  http://localhost:8083/connectors
 
     ```shell
     curl -s "http://localhost:8083/connectors?expand=info&expand=status"
+    ```
+
+    ```shell
+     curl -s "http://localhost:8083/connectors?expand=info&expand=status" | \
+       jq '. | to_entries[] | [ .value.info.type, .key, .value.status.connector.state,.value.status.tasks[].state,.value.info.config."connector.class"]|join(":|:")' | \
+       column -s : -t| sed 's/\"//g'| sort
     ```
 
   - Restart a connector

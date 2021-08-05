@@ -19,6 +19,7 @@
         "errors.log.enable": "true",
         "snapshot.lock.timeout.ms":"5000",
         "include.schema.changes": "true",
-        "initial":"true"
+        "snapshot.mode":"initial",
+        "decimal.handling.mode": "double"
     }
 }

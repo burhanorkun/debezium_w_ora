@@ -23,9 +23,11 @@ services:
       context: debezium-with-oracle-jdbc
       args:
         DEBEZIUM_VERSION: ${DEBEZIUM_VERSION}
+        JMX_AGENT_VERSION: 0.15.0
     ports:
      - 8083:8083
      - 5005:5005
+     - 1976:1976
     links:
      - kafka
      - trg_oracle
@@ -40,6 +42,9 @@ services:
      - OFFSET_STORAGE_TOPIC=my_connect_offsets
      - STATUS_STORAGE_TOPIC=my_connect_statuses
      - LD_LIBRARY_PATH=/instant_client
+     - KAFKA_OPTS=-javaagent:/kafka/etc/jmx_prometheus_javaagent.jar=8080:/kafka/etc/config.yml
+     - JMXHOST=localhost
+     - JMXPORT=1976
   oracle-db:
     container_name: dbz_oracle
     image: oracleinanutshell/oracle-xe-11g:latest
@@ -62,3 +67,23 @@ services:
       environment:
       - ORACLE_ALLOW_REMOTE=YES
       - ORACLE_HOME=/u01/app/oracle/product/11.2.0/xe
+  prometheus:
+    build:
+      context: debezium-prometheus
+      args:
+        PROMETHEUS_VERSION: v2.26.0
+    ports:
+     - 9090:9090
+    links:
+     - connect
+  grafana:
+    build:
+      context: debezium-grafana
+      args:
+        GRAFANA_VERSION: 7.5.5
+    ports:
+     - 3000:3000
+    links:
+     - prometheus
+    environment:
+     - DS_PROMETHEUS=prometheus

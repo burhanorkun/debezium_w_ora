@@ -39,10 +39,10 @@ export DEBEZIUM_VERSION=1.6
 docker-compose -f docker-compose.yaml up --build
 ```
 
-- Start Oracle sink connector for PRODUCTS table.
+- Start Oracle sink connector for Customers table.
 
 ```shell
-curl -i -X POST -H "Accept:application/json" -H  "Content-Type:application/json" http://localhost:8083/connectors/ -d @register-sink-oracle.json
+curl -i -X POST -H "Accept:application/json" -H  "Content-Type:application/json" http://localhost:8083/connectors/ -d @register-oracle-sink-customers.json
 ```
 
 - Start Oracle source connector
@@ -65,8 +65,7 @@ curl -i -X POST -H "Accept:application/json" -H  "Content-Type:application/json"
     - user: SYS
     - pass: oracle
 
-- Make changes on Source DB, see results on kafka topic,
-- Results on Target DB is in progress.
+- Make changes on Source DB, see results on kafka topic, and on the target database.
 
 - See the kafka topics
 
@@ -82,13 +81,13 @@ docker-compose -f docker-compose.yaml exec kafka /kafka/bin/kafka-console-consum
     --bootstrap-server kafka:9092 \
     --from-beginning \
     --property print.key=true \
-    --topic dbz_oracle.INVENTORY.PRODUCTS
+    --topic dbz_oracle.INVENTORY.CUSTOMERS
 ```
 
 - See the connectors
 
 ```shell
-curl -i -X GET  http://localhost:8083/connectors/inventory-source-connector
+curl -i -X GET  http://localhost:8083/connectors
 ```
 
 - Manage Connectors
@@ -103,7 +102,7 @@ curl -i -X GET  http://localhost:8083/connectors/inventory-source-connector
     ```shell
     curl -i -X POST  http://localhost:8083/connectors/inventory-source-connector/restart
     #OR 
-    curl -i -X POST  http://localhost:8083/connectors/jdbc-sink-prd-cst/restart
+    curl -i -X POST  http://localhost:8083/connectors/jdbc-sink-customers/restart
     ```
 
   - Remove a connector
@@ -111,7 +110,7 @@ curl -i -X GET  http://localhost:8083/connectors/inventory-source-connector
     ```shell
     curl -i -X DELETE  http://localhost:8083/connectors/inventory-source-connector
     #OR 
-    curl -i -X DELETE  http://localhost:8083/connectors/jdbc-sink-prd-cst
+    curl -i -X DELETE  http://localhost:8083/connectors/jdbc-sink-customers
     ```
 
 - Stop the topology

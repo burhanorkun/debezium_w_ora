@@ -5,8 +5,12 @@ ENV KAFKA_CONNECT_JDBC_DIR=$KAFKA_CONNECT_PLUGINS_DIR/kafka-connect-jdbc \
     INSTANT_CLIENT_DIR=/instant_client/ \
     DEBEZIUM_CONNECTOR_ORACLE_DIR=$KAFKA_CONNECT_PLUGINS_DIR/debezium-connector-oracle
 
+ARG POSTGRES_VERSION=42.2.8
 ARG KAFKA_JDBC_VERSION=10.2.0
 ARG KAFKA_ELASTICSEARCH_VERSION=5.3.2
+
+# Deploy PostgreSQL JDBC Driver
+RUN cd /kafka/libs && curl -sO https://jdbc.postgresql.org/download/postgresql-$POSTGRES_VERSION.jar
 
 # Deploy Kafka Connect JDBC
 RUN mkdir $KAFKA_CONNECT_JDBC_DIR && cd $KAFKA_CONNECT_JDBC_DIR &&\

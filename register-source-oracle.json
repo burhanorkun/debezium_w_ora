@@ -9,6 +9,7 @@
         "database.user" : "c##logminer",
         "database.password" : "dbz",
         "database.dbname" : "XE",
+        "database.out.server.name":"dbzxout",
         "database.oracle.version": "11",
         "database.history.kafka.bootstrap.servers" : "kafka:9092",
         "database.history.kafka.topic": "schema-changes.inventory",
@@ -17,6 +18,7 @@
         "database.schema": "inventory",
         "errors.log.enable": "true",
         "snapshot.lock.timeout.ms":"5000",
-        "include.schema.changes": "true"
+        "include.schema.changes": "true",
+        "initial":"true"
     }
 }

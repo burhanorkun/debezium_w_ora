@@ -14,7 +14,7 @@
         "database.history.kafka.bootstrap.servers" : "kafka:9092",
         "database.history.kafka.topic": "schema-changes.inventory",
         "database.connection.adapter": "logminer",
-        "table.include.list" : "",
+        "table.include.list" : "INVENTORY.CUSTOMERS",
         "database.schema": "inventory",
         "errors.log.enable": "true",
         "snapshot.lock.timeout.ms":"5000",

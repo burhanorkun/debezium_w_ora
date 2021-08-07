@@ -106,6 +106,9 @@ docker-compose -f docker-compose.yaml exec kafka /kafka/bin/kafka-console-consum
 curl -i -X GET  http://localhost:8083/connectors
 ```
 
+- See the source and sink Status on [grafana][grafana_link]
+![Dashboard](./dashboardSample.png)
+
 - Manage Connectors
   - See the connector status
 
@@ -141,3 +144,5 @@ curl -i -X GET  http://localhost:8083/connectors
 export DEBEZIUM_VERSION=1.6
 docker-compose -f docker-compose.yaml down
 ```
+
+[grafana_link]:[http://localhost:3000/d/jVyqlbG7z/oracle-to-oracle-debezium-status?orgId=1]
